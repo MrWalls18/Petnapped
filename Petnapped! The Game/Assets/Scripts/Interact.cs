@@ -87,6 +87,7 @@ public class Interact : MonoBehaviour
         {
             SceneManager.LoadScene("GameOver");
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 

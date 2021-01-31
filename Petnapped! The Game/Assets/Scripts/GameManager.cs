@@ -112,5 +112,6 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("WinScene");
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }
