@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemySight : MonoBehaviour
 {
@@ -8,7 +9,9 @@ public class EnemySight : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.LogWarning("GameOver");
+           // Debug.LogWarning("GameOver");
+            SceneManager.LoadScene("GameOver");
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -16,7 +19,7 @@ public class EnemySight : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.LogWarning("GameOver");
+            
         }
     }
 }

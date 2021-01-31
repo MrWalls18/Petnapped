@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Interact : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Interact : MonoBehaviour
     [SerializeField]private LayerMask layerMask;
 
     private GameManager gameManager;
+
 
     private void Awake()
     {
@@ -22,16 +24,27 @@ public class Interact : MonoBehaviour
 
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out interactableObject, interactDistance, layerMask))
         {
-            Debug.Log("Press E to interact");
-
-
-            if (Input.GetKeyDown(KeyCode.E))
+            if (interactableObject.transform.gameObject.layer == LayerMask.NameToLayer("interactable"))
             {
-                InteractWith(interactableObject);
+                gameManager.interact.enabled = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    InteractWith(interactableObject);
+                }
             }
+            else
+                gameManager.interact.enabled = false;
+
+
+            
+        }
+        else
+        {
+            gameManager.interact.enabled = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
+
+        if (Input.GetKeyDown(KeyCode.R))
         {
             gameManager.ShowAndHideClue();
         }
@@ -52,6 +65,16 @@ public class Interact : MonoBehaviour
                 Destroy(interactableObject.transform.gameObject);
                 gameManager.hasKey = true;
                 break;
+            case "Fence":
+                if (gameManager.hasKey)
+                {
+                    Destroy(interactableObject.transform.gameObject);
+                    gameManager.doorOpen.Play();
+                }
+                break;
+            case "Dog":
+                gameManager.WinScreen();
+                break;
             default:
                 Debug.LogError("Error: Incorrect tag: " + interactableObject.transform.tag);
                 break;
@@ -60,9 +83,19 @@ public class Interact : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.tag == "Car")
+        {
+            SceneManager.LoadScene("GameOver");
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
         if (other.gameObject.tag == "KeyCheck")
         {
             gameManager.CheckForKey();
         }
     }
+
 }

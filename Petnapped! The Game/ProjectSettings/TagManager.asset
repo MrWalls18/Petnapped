@@ -8,6 +8,9 @@ TagManager:
   - Box
   - Key
   - KeyCheck
+  - Fence
+  - Dog
+  - Car
   layers:
   - Default
   - TransparentFX
@@ -17,7 +20,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - interactable
   - 
   - 
   - 
